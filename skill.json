@@ -1,0 +1,56 @@
+{
+  "name": "genpark-agentic-inventory-restock-predictive-balancer-skill",
+  "version": "1.0.0",
+  "description": "Autonomous Multi-Channel Inventory Restock Predictive Balancer & PO Generator. Forecasts SKU sales velocity using exponential moving averages (EMA), calculates safety stock buffers ($SS = z \\cdot \\sigma_d \\sqrt{L}$), dynamically computes reorder points (ROP), and synthesizes supplier Purchase Orders.",
+  "tools": [
+    {
+      "name": "balance_predictive_inventory",
+      "description": "Calculate SKU run rate, reorder point (ROP), safety stock buffer, and generate automated restock purchase orders.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "evaluate_sku_inventory",
+              "batch_evaluate_inventory",
+              "generate_purchase_order"
+            ],
+            "description": "Inventory restock balancing action."
+          },
+          "sku": {
+            "type": "string",
+            "description": "Product SKU identifier."
+          },
+          "current_stock": {
+            "type": "integer",
+            "description": "Current on-hand inventory count."
+          },
+          "lead_time_days": {
+            "type": "integer",
+            "description": "Supplier fulfillment lead time in days."
+          },
+          "sales_history_7d": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "Daily units sold over past 7 days."
+          },
+          "service_level": {
+            "type": "string",
+            "enum": [
+              "STANDARD_90",
+              "HIGH_95",
+              "CRITICAL_99"
+            ],
+            "description": "Target service availability level."
+          }
+        },
+        "required": [
+          "action"
+        ]
+      }
+    }
+  ]
+}
